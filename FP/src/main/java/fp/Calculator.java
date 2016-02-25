@@ -26,7 +26,22 @@ public class Calculator {
 	 * Escribir todos los números del number al 0 de step en step.
 	 */
 	public static int[] stepThisNumber(int number, int step) {
-		throw  new NotImplementedException();
+		int count = number, j = 0;
+		
+		do{
+			count -=step;
+			j++;
+		}	
+		while(count > 0);
+		j--;
+		int v[] = new int[j];
+		for(int i = 0; i<j ; i++){
+			number -= step;
+			v[i] = number;
+		}
+		
+		return v;
+		//DONE
 		}
 
 	/*
