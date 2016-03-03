@@ -46,8 +46,11 @@ public class Calculator {
 			j++;
 		}	
 		while(count > 0);
+
 		j--;
+		
 		int v[] = new int[j];
+		
 		for(int i = 0; i<j ; i++){
 			number -= step;
 			v[i] = number;
@@ -306,6 +309,52 @@ public class Calculator {
 	 * este metodo devuelve cierto si la fecha es válida
 	 */
 	public static boolean isValidDate(String date) {
-		throw  new NotImplementedException();
-	}
+		int dias [] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; 
+		
+		if (date == "")
+			return false;
+	
+		try{
+			Integer.parseInt(""+date.charAt(0));
+		}catch(NumberFormatException nfe){
+			return false;
+		}
+		
+		int potencia = 3, count = 0; 
+		int pot [] = {1000, 100, 10, 1};
+		int fecha [] = {0, 0, 0};
+		//System.out.println( date );
+		//System.out.println("Flag");
+		for (int i = date.length() - 1; i >= 0; i--) {
+			
+			if(date.charAt(i) == '-'){
+				count++;
+				potencia = 3;
+			}else{
+			//	System.out.println(date.charAt(i) + " " + pot[potencia]);
+			fecha[count] += Integer.parseInt(""+date.charAt(i))*pot[potencia];
+			potencia--;
+			System.out.println(fecha[count]);
+			}
+		}
+		
+		
+		System.out.println("El anno es "+fecha[0]+" el mes es "+fecha[1]+" el dia es "+fecha[2]+" ");
+		
+		if(fecha[0] == 0 ||fecha[1] == 0 ||fecha[2] == 0){
+			System.out.println("Flag 0");
+			return false;}
+		System.out.println("PosFlag 0");
+		if(fecha[2] == 29 && isLeapYear(date) == false){
+			System.out.println("Flag bisiesto");
+			return false;}
+		System.out.println("PosFlag dossiestas");
+		
+		if( fecha[1] > 12 || fecha[2] > dias[fecha[1]-1]){
+			System.out.println("Flag dias extras");
+			return false;}
+		System.out.println("PosFlag Extra");
+		System.out.println("Flag esta todo bien");
+		return true;
+		}
 }
