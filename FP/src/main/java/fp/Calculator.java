@@ -23,14 +23,15 @@ public class Calculator {
 	public static List<Integer> fibonacci(int n) {
 		List<Integer> listInt = new ArrayList<Integer>();
 		int x = 0 , y = 1, aux = 0;
-		
+		//Iniciamos dos variables, las cuales serán la posicion de la series y su anterior
 		for (int i = 0; i < n; i++){
 			aux = x;
 			x = y;
 			y += aux;
 			listInt.add(x);
 		}
-		
+		//De forma recursiva utilizamos la funcion para obtener la lista de los anteriores, de este modo llegamos hasta 
+		// 1, dicho valor es el dado a Y
 		return listInt;
 		//DONE
 	}
@@ -40,7 +41,8 @@ public class Calculator {
 	 */
 	public static int[] stepThisNumber(int number, int step) {
 		int count = number, j = 0;
-		
+		//nuestro problema es que no sabemos cuantos numeros entraran en nuestro array
+		//Can la siguiente funcion calculamos dicha longitud
 		do{
 			count -=step;
 			j++;
@@ -55,7 +57,7 @@ public class Calculator {
 			number -= step;
 			v[i] = number;
 		}
-		
+		//Ahora sencillamente cargamos los valores en el array
 		return v;
 		//DONE
 		}
@@ -66,20 +68,21 @@ public class Calculator {
 	 */
 	public static int[] divisors(int n) {
 		  List listaDiv=new ArrayList<>();
+		  //Como no sabemos el numero de divisores los cargamos en un list 
 	        for(int i=1; i<=(int)n/2; i++){
 	            if(n%i==0){
 	                listaDiv.add(i);
 	            }
 	        }
 	        listaDiv.add(n);
-	        
+	        //Añadimos el propio numero, pues todo numero es divisible por si mismo, y por uno, el cual se ah incluido en 
+	        //el bucle.
+	        //Con  el comparador y la funcion sort hacemos que lo elementos se comparen entre si y se ordenen inversamente
 		Comparator<Integer> comparador = Collections.reverseOrder();
         Collections.sort(listaDiv, comparador);
-        
+        //Volcamos la lista en un array de enteros y lo devolvemos
         int[] array=new int[listaDiv.size()];
-        
         Iterator it=listaDiv.iterator();
-        
         for(int i=0; i<listaDiv.size();i++){
             if(it.hasNext()){
                 array[i]=(int) it.next();
@@ -100,12 +103,11 @@ public class Calculator {
 		String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ";
 		// Cadena de caracteres ASCII que reemplazarán los originales.
 		String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcC";
-		//String output = cadena;
 		for (int i=0; i<original.length(); i++) {
 			// Reemplazamos los caracteres especiales.
 			cadena=cadena.replace(original.charAt(i), ascii.charAt(i));
 		}
-		
+		// lo ponemos todo en minúsculas y quitamos espacios, ademas de los caraceteres que no son letras (? , ; . ...)
 		cadena=cadena.toLowerCase();
 		for(int i=0; i<cadena.length();i++){
 			if(cadena.charAt(i) > 'z' || cadena.charAt(i) < 'a')
@@ -113,11 +115,12 @@ public class Calculator {
 		}
 		cadena=cadena.replace(" ", "");
 		
-		//System.out.println(cadena);
+		//Comparamos la cadena con los pares simétricos
 		for (int i = 0; i < cadena.length()/2; i++){
 			if(cadena.charAt(i) != cadena.charAt(cadena.length()-1-i))
 			return false;
 		}
+		
 		return true;
 		//DUNE
 	}
@@ -128,161 +131,25 @@ public class Calculator {
 	 */
 	public static String speakToMe(int n) {
 		int d = (int)n/10;
-		//System.out.println(d);
-		String numero = "", sub = "";
-		switch (d) {
-		case 0:
-			switch (n) {
-			case 0:
-				return "Cero";
-			case 1:
-				return "Uno";
-			case 2:
-				return "Dos";
-			case 3:
-				return "Tres";
-			case 4:
-				return "Cuatro";
-			case 5:
-				return "Cinco";
-			case 6:
-				return "Seis";
-			case 7:
-				return "Siete";
-			case 8:
-				return "Ocho";
-			case 9:
-				return "Nueve";
-			}
-			break;
-		case 1:
-			switch (n) {
-			case 10:
-				numero = "diez";
-				break;
-			case 11:
-				numero = "once";
-				break;
-			case 12:
-				numero = "doce";
-				break;
-			case 13:
-				numero = "trece";
-				break;
-			case 14:
-				numero = "catorce";
-				break;
-			case 15:
-				numero = "quince";
-				break;
-				
-			default:
-				numero = "dieci"+speakToMe(n-(d*10));
-				break;
-			}
-			break;
-		case 2:
-			switch (n) {
-			case 20:
-				numero = "veinte";
-				break;
-				
-			default:
-				numero = "venti"+speakToMe(n-(d*10));
-				break;
-			}
-			break;
-		case 3:
-			switch (n) {
-			case 30:
-				numero = "treinta";
-				break;
-				
-			default:
-				numero = "trenta y "+speakToMe(n-(d*10));
-				break;
-			}
-			break;
-		case 4:
-			switch (n) {
-			case 40:
-				numero = "cuarenta";
-				break;
-				
-			default:
-				numero = "cuarenta y "+speakToMe(n-(d*10));
-				break;
-			}
-			break;
-		case 5:
-			switch (n) {
-			case 50:
-				numero = "cincuenta";
-				break;
-				
-			default:
-				numero = "cincuenta y "+speakToMe(n-(d*10));
-				break;
-			}
-			break;
-		case 6:
-			switch (n) {
-			case 60:
-				numero = "sesenta";
-				break;
-				
-			default:
-				numero = "sesenta y "+speakToMe(n-(d*10));
-				break;
-			}
-			break;
-		case 7:
-			switch (n) {
-			case 70:
-				numero = "setenta";
-				break;
-				
-			default:
-				numero = "setenta y "+speakToMe(n-(d*10));
-				break;
-			}
-			break;
-		case 8:
-			switch (n) {
-			case 80:
-				numero = "ochenta";
-				break;
-				
-			default:
-				numero = "tochenta y "+speakToMe(n-(d*10));
-				break;
-			}
-			break;
-		case 9:
-			switch (n) {
-			case 90:
-				numero = "noventa";
-				break;
-				
-			default:
-				numero = "noventa y "+speakToMe(n-(d*10));
-				break;
-			}
-			break;
-		default:
-			numero = "NaN";
-			break;
-		}
-		
+		//Cargamos todos las palabras en strings según si son decenas o unidades
+		String numero, sub = "";
+		String unidades [] = {"Cero", "Uno", "Dos", "Tres", "Cuatro", "Cinco", "Seis", "Siete", "Ocho", "Nueve", "Diez", "Once", "Doce", "Trece", "Catorce", "Quince"};
+		String decenas [] = {"Dieci", "Veinti", "Treinta", "Cuarenta", "Cincuenta", "Sesenta", "Setenta", "Ochenta", "Noventa"};
+		if(n < 16) return unidades[n];
+		if(n == 20) return "Veinte";
+		if(n < 30)
+		numero = decenas[d-1]+speakToMe(n-d*10);
+		//A pesar de las excepciones, hacemos una composicion de las dos cadenas
+		if(n%10 == 0) numero = decenas[d-1];
+		else numero = decenas[d-1]+" y "+speakToMe(n-d*10);
 		numero = numero.toLowerCase();
 		sub += numero.charAt(0);
 		sub = sub.toUpperCase();
 		for (int i = 1; i < numero.length(); i++) {
 			sub += numero.charAt(i);
 		}
-		
 		return sub;
-		//DONE
+				//DONE
 	}
 
 	
@@ -296,11 +163,12 @@ public class Calculator {
 		int anno = 0;
 		int potencia=0;
 		int pot [] = {1, 10, 100, 1000};
+		//Segun la posición lo miltiplicamos por 1, 10, 100 o 1000 dandonos el orden de magnitud real
 		for (int i = fecha.length()-1; i >= fecha.length()-4; i--) {
 			anno+=(Integer.parseInt(""+fecha.charAt(i)))*pot[potencia];
 			potencia++;
 		}
-		
+		//El algortimo de comparación es harto complicado
 		return (anno % 400 == 0 || (anno % 4 == 0 && anno % 100 != 0));
 		//DONE
 	}
@@ -313,7 +181,7 @@ public class Calculator {
 		
 		if (date == "")
 			return false;
-	
+	//Si la primera cifra ya no es un número ni nos moletamos en seguir
 		try{
 			Integer.parseInt(""+date.charAt(0));
 		}catch(NumberFormatException nfe){
@@ -323,38 +191,26 @@ public class Calculator {
 		int potencia = 3, count = 0; 
 		int pot [] = {1000, 100, 10, 1};
 		int fecha [] = {0, 0, 0};
-		//System.out.println( date );
-		//System.out.println("Flag");
+		//Empleamos un algortmo parecido al del ejhercicio anterior
 		for (int i = date.length() - 1; i >= 0; i--) {
 			
 			if(date.charAt(i) == '-'){
 				count++;
 				potencia = 3;
 			}else{
-			//	System.out.println(date.charAt(i) + " " + pot[potencia]);
-			fecha[count] += Integer.parseInt(""+date.charAt(i))*pot[potencia];
+				fecha[count] += Integer.parseInt(""+date.charAt(i))*pot[potencia];
 			potencia--;
-			System.out.println(fecha[count]);
 			}
 		}
-		
-		
-		System.out.println("El anno es "+fecha[0]+" el mes es "+fecha[1]+" el dia es "+fecha[2]+" ");
-		
+		//Damos las excepciones necesarias, así como aprovechar el eño bisiesto
 		if(fecha[0] == 0 ||fecha[1] == 0 ||fecha[2] == 0){
-			System.out.println("Flag 0");
 			return false;}
-		System.out.println("PosFlag 0");
 		if(fecha[2] == 29 && isLeapYear(date) == false){
 			System.out.println("Flag bisiesto");
 			return false;}
-		System.out.println("PosFlag dossiestas");
 		
 		if( fecha[1] > 12 || fecha[2] > dias[fecha[1]-1]){
-			System.out.println("Flag dias extras");
 			return false;}
-		System.out.println("PosFlag Extra");
-		System.out.println("Flag esta todo bien");
 		return true;
 		}
 }
