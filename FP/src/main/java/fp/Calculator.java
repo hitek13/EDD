@@ -4,6 +4,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.*;
+
+import org.hamcrest.core.SubstringMatcher;
 
 public class Calculator {
 
@@ -69,12 +72,14 @@ public class Calculator {
 	public static int[] divisors(int n) {
 		  List listaDiv=new ArrayList<>();
 		  //Como no sabemos el numero de divisores los cargamos en un list 
-	        for(int i=1; i<=(int)n/2; i++){
+		  if(n==0)
+			  return null;
+		  for(int i=1; i<=(int)n/2; i++){
 	            if(n%i==0){
 	                listaDiv.add(i);
 	            }
 	        }
-	        listaDiv.add(n);
+		  listaDiv.add(n);
 	        //Añadimos el propio numero, pues todo numero es divisible por si mismo, y por uno, el cual se ah incluido en 
 	        //el bucle.
 	        //Con  el comparador y la funcion sort hacemos que lo elementos se comparen entre si y se ordenen inversamente
@@ -88,8 +93,6 @@ public class Calculator {
                 array[i]=(int) it.next();
             }
         }
-        if(n==0)
-        	return new int [0];
         return array;  
         //DONE
 	}
@@ -100,6 +103,17 @@ public class Calculator {
 	public static boolean checkIsPalindrome(String cadena) {
 		if (cadena == null)
 			return false;
+		//El subalgortimo acentos, que está debajo de este método, quita los acentos a todas las letras
+		cadena = quitarAcentos(cadena);
+		// lo ponemos todo en minúsculas y quitamos espacios, ademas de los caraceteres que no son letras (? , ; . ...)
+		cadena = normaliza(cadena);
+		//Comparamos la cadena con los pares simétricos por medio de la funcion compara
+		
+		return compara(cadena);
+		//DUNE
+	}
+	public static String quitarAcentos (String cadena){
+		
 		String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ";
 		// Cadena de caracteres ASCII que reemplazarán los originales.
 		String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcC";
@@ -107,24 +121,24 @@ public class Calculator {
 			// Reemplazamos los caracteres especiales.
 			cadena=cadena.replace(original.charAt(i), ascii.charAt(i));
 		}
-		// lo ponemos todo en minúsculas y quitamos espacios, ademas de los caraceteres que no son letras (? , ; . ...)
+		return cadena;
+	}
+	public static String normaliza (String cadena){
 		cadena=cadena.toLowerCase();
 		for(int i=0; i<cadena.length();i++){
 			if(cadena.charAt(i) > 'z' || cadena.charAt(i) < 'a')
 				cadena=cadena.replace(cadena.charAt(i),' ');
 		}
 		cadena=cadena.replace(" ", "");
-		
-		//Comparamos la cadena con los pares simétricos
+		return cadena;
+	}
+	public static boolean compara (String cadena){
 		for (int i = 0; i < cadena.length()/2; i++){
 			if(cadena.charAt(i) != cadena.charAt(cadena.length()-1-i))
-			return false;
+				return false;
 		}
-		
 		return true;
-		//DUNE
 	}
-
 	/*
 	 * Pedir un número de 0 a 99 y mostrarlo escrito. Por ejemplo, para 56
 	 * mostrar: cincuenta y seis
@@ -132,7 +146,7 @@ public class Calculator {
 	public static String speakToMe(int n) {
 		int d = (int)n/10;
 		//Cargamos todos las palabras en strings según si son decenas o unidades
-		String numero, sub = "";
+		String numero;
 		String unidades [] = {"Cero", "Uno", "Dos", "Tres", "Cuatro", "Cinco", "Seis", "Siete", "Ocho", "Nueve", "Diez", "Once", "Doce", "Trece", "Catorce", "Quince"};
 		String decenas [] = {"Dieci", "Veinti", "Treinta", "Cuarenta", "Cincuenta", "Sesenta", "Setenta", "Ochenta", "Noventa"};
 		if(n < 16) return unidades[n];
@@ -142,6 +156,12 @@ public class Calculator {
 		//A pesar de las excepciones, hacemos una composicion de las dos cadenas
 		if(n%10 == 0) numero = decenas[d-1];
 		else numero = decenas[d-1]+" y "+speakToMe(n-d*10);
+		//Ponemos solo la primera letra en mayusculas
+		return empiezaMayus(numero);
+				//DONE
+	}
+	public static String empiezaMayus (String numero){
+		String sub = "";
 		numero = numero.toLowerCase();
 		sub += numero.charAt(0);
 		sub = sub.toUpperCase();
@@ -149,9 +169,7 @@ public class Calculator {
 			sub += numero.charAt(i);
 		}
 		return sub;
-				//DONE
 	}
-
 	
 	/*
 	 * este metodo devuelve cierto si el año de la fecha es bisiesto fecha
@@ -160,6 +178,13 @@ public class Calculator {
 	public static boolean isLeapYear(String fecha) {
 		if (fecha == "")
 			return false;
+		//Transformamos fecha en un entero, cogiendo solo el año de dicha fecha
+		int anno = stringToInt(fecha);
+		//El algortimo de comparación es harto complicado
+		return (anno % 400 == 0 || (anno % 4 == 0 && anno % 100 != 0));
+		//DONE
+	}
+	public static int stringToInt (String fecha){
 		int anno = 0;
 		int potencia=0;
 		int pot [] = {1, 10, 100, 1000};
@@ -168,9 +193,7 @@ public class Calculator {
 			anno+=(Integer.parseInt(""+fecha.charAt(i)))*pot[potencia];
 			potencia++;
 		}
-		//El algortimo de comparación es harto complicado
-		return (anno % 400 == 0 || (anno % 4 == 0 && anno % 100 != 0));
-		//DONE
+		return anno;
 	}
 
 	/*
@@ -187,21 +210,13 @@ public class Calculator {
 		}catch(NumberFormatException nfe){
 			return false;
 		}
-		
-		int potencia = 3, count = 0; 
-		int pot [] = {1000, 100, 10, 1};
+		if( date.length() < 10 || date.charAt(2) != '-' || date.charAt(5) != '-' )
+			return false;
 		int fecha [] = {0, 0, 0};
-		//Empleamos un algortmo parecido al del ejhercicio anterior
-		for (int i = date.length() - 1; i >= 0; i--) {
-			
-			if(date.charAt(i) == '-'){
-				count++;
-				potencia = 3;
-			}else{
-				fecha[count] += Integer.parseInt(""+date.charAt(i))*pot[potencia];
-			potencia--;
-			}
-		}
+		//Empleamos un algortmo parecido al del ejercicio anterior, pero lo hemos modificado para que lea el string entero, y no solo el año
+		fecha [0] = stringToInt2 (date.substring(6, 10));
+		fecha [1] = stringToInt2 (date.substring(3, 5));
+		fecha [2] = stringToInt2 (date.substring(0, 2));
 		//Damos las excepciones necesarias, así como aprovechar el eño bisiesto
 		if(fecha[0] == 0 ||fecha[1] == 0 ||fecha[2] == 0){
 			return false;}
@@ -213,4 +228,15 @@ public class Calculator {
 			return false;}
 		return true;
 		}
+	public static int stringToInt2 (String fecha){
+		int anno = 0;
+		int potencia=0;
+		int pot [] = {1, 10, 100, 1000};
+		//Segun la posición lo miltiplicamos por 1, 10, 100 o 1000 dandonos el orden de magnitud real
+		for (int i = fecha.length()-1; i >= 0; i--) {
+			anno+=(Integer.parseInt(""+fecha.charAt(i)))*pot[potencia];
+			potencia++;
+		}
+		return anno;
+	}
 }

@@ -47,7 +47,7 @@ public class CalculatorTest {
 
 	@Test
 	public void testDivisors() {
-		//assertNull(divisors(0));
+		assertNull(divisors(0));
 		assertArrayEquals(divisors(1), new int[] { 1 });
 		assertArrayEquals(divisors(12), new int[] { 12, 6, 4, 3, 2, 1 });
 		assertArrayEquals(divisors(20), new int[] { 20, 10, 5, 4, 2, 1 });
@@ -56,7 +56,7 @@ public class CalculatorTest {
 
 	@Test
 	public void testIsPalindrome() {
-		//assertNotNull(checkIsPalindrome(null));
+		assertNotNull(checkIsPalindrome(null));
 		assertTrue(
 checkIsPalindrome("No Mara, sometamos o matemos a Ramón."));
 		assertTrue(
